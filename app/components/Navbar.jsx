@@ -38,56 +38,129 @@ const Navbar = () => {
   };
 
   return (
-    <div className="bg-gray-800 text-white shadow-md w-full flex flex-col md:flex-row items-center justify-between px-5 py-3 relative">
-  <div className="flex justify-between items-center w-full md:w-auto">
-    <a className="text-xl font-bold">
-      <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Logo" className="h-20 w-20" />
-    </a>
-    <button className="text-3xl text-gray-800 dark:text-white md:hidden" onClick={toggleMenu}>
-      {isMenuOpen ? <AiOutlineClose /> : <FaBars />}
-    </button>
-  </div>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900 shadow-lg">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <img 
+              src="https://www.w3schools.com/howto/img_avatar.png" 
+              alt="Logo" 
+              className="h-10 w-10 rounded-full border-2 border-indigo-400 hover:border-indigo-300 transition-all duration-300 hover:scale-105"
+            />
+          </div>
 
-  <ul className={`md:flex flex-col md:flex-row md:items-center md:justify-center absolute md:relative w-full md:w-auto left-0 bg-gray-800 z-50 transition-all ease-in-out duration-300 ${isMenuOpen ? "top-20" : "top-[-490px] md:top-0"}`}>
-    <li className="px-4 py-2 text-center border-b md:border-none">
-      <Link href="/">Home</Link>
-    </li>
-    <li className="px-4 py-2 text-center border-b md:border-none">
-      <Link href="/about">About</Link>
-    </li>
-    {user && (
-      <>
-        <li className="px-4 py-2 text-center border-b md:border-none">
-          <Link href="/profile">Profile</Link>
-        </li>
-        <li className="px-2 py-2 text-center border-b md:border-none">
-          <Link href="/addList">+Ekle</Link>
-        </li>
-      </>
-    )}
-    {loading ? (
-      <div className="flex justify-center items-center py-2">Loading...</div>
-    ) : user ? (
-      <div className="px-4 py-2 flex flex-col md:flex-row md:items-center md:justify-end md:w-full">
-        <span className="text-white-800 dark:text-white text-sm font-medium">
-          Hoşgeldin, {user.displayName}
-        </span>
-        <button onClick={handleSignOut} className="mt-2 md:mt-0 md:ml-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-md cursor-pointer">
-  Çıkış
-</button>
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center space-x-8">
+            <Link 
+              href="/" 
+              className="text-gray-300 hover:text-white hover:bg-indigo-700/50 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300"
+            >
+              Ana Sayfa
+            </Link>
+            {user && (
+              <>
+                <Link 
+                href="/profile" 
+                className="block text-gray-300 hover:text-white hover:bg-indigo-700/50 px-3 py-2 rounded-md text-base font-medium"
+              >
+                Profil
+              </Link>
+              <Link 
+                href="/addList" 
+                className="block text-gray-300 hover:text-white hover:bg-indigo-700/50 px-3 py-2 rounded-md text-base font-medium"
+              >
+                Ekle
+              </Link>
+              </>
+            )}
+          </div>
+
+          {/* Auth Buttons */}
+          <div className="hidden md:flex items-center space-x-4">
+            {!loading && (
+              <>
+                {user?.displayName ? (
+                  <div className="flex items-center space-x-4">
+                    <span className="text-sm text-gray-300">{user.displayName}</span>
+                    <button
+                      onClick={handleSignOut}
+                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20"
+                    >
+                      Çıkış
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleSignIn}
+                    className="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/20"
+                  >
+                    Giriş
+                  </button>
+                )}
+              </>
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={toggleMenu}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-indigo-700/50 focus:outline-none"
+            >
+              {isMenuOpen ? <AiOutlineClose className="h-6 w-6" /> : <FaBars className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <Link 
+              href="/" 
+              className="block text-gray-300 hover:text-white hover:bg-indigo-700/50 px-3 py-2 rounded-md text-base font-medium"
+            >
+              Ana Sayfa
+            </Link>
+            {user && (
+              <>
+                <Link 
+                href="/profile" 
+                className="block text-gray-300 hover:text-white hover:bg-indigo-700/50 px-3 py-2 rounded-md text-base font-medium"
+              >
+                Profil
+              </Link>
+              <Link 
+                href="/addList" 
+                className="block text-gray-300 hover:text-white hover:bg-indigo-700/50 px-3 py-2 rounded-md text-base font-medium"
+              >
+                Ekle
+              </Link>
+              </>
+            )}
+            {!loading && user?.displayName && (
+              <div className="px-3 py-2">
+                <span className="block text-sm text-gray-300 mb-2">{user.displayName}</span>
+                <button
+                  onClick={handleSignOut}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
+                >
+                  Çıkış
+                </button>
+              </div>
+            )}
+            {!loading && !user && (
+              <button
+                onClick={handleSignIn}
+                className="w-full bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 mx-3"
+              >
+                Giriş
+              </button>
+            )}
+          </div>
+        </div>
       </div>
-    ) : (
-      <div className="px-4 py-2 flex flex-col md:flex-row md:items-center md:justify-end md:w-full">
-        <button onClick={handleSignIn} className="mt-2 md:mt-0 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md cursor-pointer">
-        Giriş
-        </button>
-        <button onClick={handleSignIn} className="mt-2 md:mt-0 md:ml-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black font-semibold rounded-md cursor-pointer">
-        Kayıt
-        </button>
-      </div>
-    )}
-  </ul>
-</div>
+    </nav>
   );
 };
 

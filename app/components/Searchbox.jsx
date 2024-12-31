@@ -13,20 +13,24 @@ const SearchBox = ({ onSearch }) => {
   };
 
   return (
-    <div className='flex items-center justify-center p-3 mb-2'>
-        <form onSubmit={handleSubmit} className="mb-4">
-      <input
-        type="text"
-        placeholder="Kategoriye göre ara..."
-        value={searchTerm}
-        onChange={handleChange}
-        className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500"
-      />
-      <button type="submit" className="bg-red-500 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md ml-2">
-  Ara
-</button>
-
-    </form>
+    <div className="flex items-center justify-center mt-9 p-4 mb-4 shadow-sm">
+      <form onSubmit={handleSubmit} className="mt-9 w-full max-w-md">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="Kategoriye göre ara..."
+            value={searchTerm}
+            onChange={handleChange}
+            className="w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-150 ease-in-out"
+          />
+          <button 
+            type="submit" 
+            className="px-6 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-150 ease-in-out shadow-md hover:shadow-lg"
+          >
+            Ara
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

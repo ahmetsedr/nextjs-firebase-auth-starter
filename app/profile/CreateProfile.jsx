@@ -100,146 +100,219 @@ function CreateProfile() {
     }
   };
 
+  // Profil fotoğrafı için handler
+  const handleProfileImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewProfile({
+          ...newProfile,
+          profileImage: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Arkaplan fotoğrafı için handler
+  const handleBackgroundImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewProfile({
+          ...newProfile,
+          backgroundImage: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
-    <div className="mt-12 min-h-screen flex justify-center items-center">
-  <main className="container mx-auto mt-6 px-4 sm:px-0 max-w-lg">
-    <div className="bg-white rounded-lg shadow-md p-4 md:p-8">
-      <h2 className="text-3xl font-bold mb-6 text-center">👋 Aramıza Hoşgeldin</h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="mb-4">
-          <label htmlFor="profileName" className="block font-semibold">
-            Profil Adınız
-          </label>
-          <input
-            type="text"
-            name="profileName"
-            id="profileName"
-            className="w-full p-3 md:p-4 border rounded focus:outline-none focus:ring focus:border-blue-500"
-            value={newProfile.profileName}
-            onChange={handleChange}
-            placeholder="Profile Adınız"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="profileImage" className="block font-semibold">
-            Profil Fotoğrafınız
-          </label>
-          <div className="flex items-center">
-            <input
-              type="text"
-              name="profileImage"
-              id="profileImage"
-              className="flex-1 p-3 md:p-4 border rounded focus:outline-none focus:ring focus:border-blue-500"
-              value={newProfile.profileImage}
-              onChange={handleChange}
-              placeholder="Profile Fotoğrafı"
-              required
-            />
-            <button
-              type="button"
-              className="ml-2 text-blue-500 hover:text-blue-700 focus:outline-none"
-              onClick={() => handleVarsayilan('profile')}
-            >
-              Varsayılan
-            </button>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden">
+          <div className="p-6 sm:p-8">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-white mb-2">👋 Aramıza Hoşgeldin</h2>
+              <p className="text-gray-400">Profilini oluşturarak başlayalım</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Profil Adı */}
+              <div>
+                <label htmlFor="profileName" className="block text-sm font-medium text-gray-300 mb-2">
+                  Profil Adınız
+                </label>
+                <input
+                  type="text"
+                  name="profileName"
+                  id="profileName"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-white placeholder-gray-400 transition duration-200"
+                  value={newProfile.profileName}
+                  onChange={handleChange}
+                  placeholder="Profil Adınız"
+                  required
+                />
+              </div>
+
+              {/* Profil Fotoğrafı */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2 text-center">
+                  Profil Fotoğrafı
+                </label>
+                <div className="flex flex-col items-center justify-center space-y-4">
+                  <div className="relative group">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleProfileImageChange}
+                      className="hidden"
+                      id="profileImageInput"
+                    />
+                    <label
+                      htmlFor="profileImageInput"
+                      className="flex items-center justify-center w-32 h-32 rounded-full bg-gray-800/50 border-2 border-dashed border-gray-600 hover:border-indigo-500 cursor-pointer group-hover:bg-gray-700/50 transition duration-300"
+                    >
+                      {newProfile.profileImage ? (
+                        <img
+                          src={newProfile.profileImage}
+                          alt="Profile"
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="text-center">
+                          <i className="fas fa-camera text-gray-400 text-xl mb-2"></i>
+                          <p className="text-sm text-gray-400">Fotoğraf Seç</p>
+                        </div>
+                      )}
+                    </label>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleVarsayilan('profile')}
+                    className="px-4 py-2 text-sm text-indigo-400 hover:text-indigo-300 transition duration-200"
+                  >
+                    Varsayılan
+                  </button>
+                </div>
+              </div>
+
+              {/* Arkaplan Fotoğrafı */}
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Arkaplan Fotoğrafı
+                </label>
+                <div className="relative group">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleBackgroundImageChange}
+                    className="hidden"
+                    id="backgroundImageInput"
+                  />
+                  <label
+                    htmlFor="backgroundImageInput"
+                    className="flex items-center justify-center w-full h-40 rounded-lg bg-gray-800/50 border-2 border-dashed border-gray-600 hover:border-indigo-500 cursor-pointer group-hover:bg-gray-700/50 transition duration-300"
+                  >
+                    {newProfile.backgroundImage ? (
+                      <img
+                        src={newProfile.backgroundImage}
+                        alt="Background"
+                        className="w-full h-full rounded-lg object-cover"
+                      />
+                    ) : (
+                      <div className="text-center">
+                        <i className="fas fa-image text-gray-400 text-2xl mb-2"></i>
+                        <p className="text-sm text-gray-400">Arkaplan Fotoğrafı Seç</p>
+                      </div>
+                    )}
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => handleVarsayilan('background')}
+                    className="absolute top-2 right-2 px-3 py-1 text-xs bg-gray-900/70 text-gray-300 rounded-full hover:bg-gray-900 transition duration-200"
+                  >
+                    Varsayılan
+                  </button>
+                </div>
+              </div>
+
+              {/* Telefon */}
+              <div>
+                <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-300 mb-2">
+                  Telefon Numarası <span className="text-gray-500">(İsteğe Bağlı)</span>
+                </label>
+                <input
+                  type="tel"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-white placeholder-gray-400"
+                  value={newProfile.phoneNumber}
+                  onChange={handleChangePhoneNumber}
+                  placeholder="555 555 55 55"
+                  maxLength={14}
+                />
+              </div>
+
+              {/* Doğum Tarihi */}
+              <div>
+                <label htmlFor="birthDate" className="block text-sm font-medium text-gray-300 mb-2">
+                  Doğum Tarihi
+                </label>
+                <input
+                  type="date"
+                  name="birthDate"
+                  id="birthDate"
+                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-white"
+                  value={newProfile.birthDate}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {/* Checkbox'lar */}
+              <div className="space-y-4">
+                <label className="flex items-center space-x-3 text-gray-300 hover:text-white transition duration-200">
+                  <input
+                    type="checkbox"
+                    id="kvkkCheckbox"
+                    checked={newProfile.kvkk}
+                    onChange={handleKvkkChange}
+                    className="w-4 h-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700"
+                    required
+                  />
+                  <span className="text-sm">KVKK'yı Kabul Ediyorum</span>
+                </label>
+
+                <label className="flex items-center space-x-3 text-gray-300 hover:text-white transition duration-200">
+                  <input
+                    type="checkbox"
+                    id="postaTalimatiCheckbox"
+                    checked={newProfile.postaIletisim}
+                    onChange={handlePostaTalimatiChange}
+                    className="w-4 h-4 text-indigo-600 border-gray-600 rounded focus:ring-indigo-500 bg-gray-700"
+                    required
+                  />
+                  <span className="text-sm">Posta Talimatı ve Arama Almayı Kabul Ediyorum</span>
+                </label>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-medium rounded-lg hover:from-indigo-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition duration-300 transform hover:scale-[1.02]"
+              >
+                Profili Oluştur
+              </button>
+            </form>
           </div>
         </div>
-        <div className="mb-4">
-          <label htmlFor="backgroundImage" className="block font-semibold">
-            Profil Arkaplan Fotoğrafınız
-          </label>
-          <div className="flex items-center">
-            <input
-              type="text"
-              name="backgroundImage"
-              id="backgroundImage"
-              className="flex-1 p-3 md:p-4 border rounded focus:outline-none focus:ring focus:border-blue-500"
-              value={newProfile.backgroundImage}
-              onChange={handleChange}
-              placeholder="Arkaplan Fotoğrafı"
-              required
-            />
-            <button
-              type="button"
-              className="ml-2 text-blue-500 hover:text-blue-700 focus:outline-none"
-              onClick={() => handleVarsayilan('background')}
-            >
-              Varsayılan
-            </button>
-          </div>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="phoneNumber" className="block font-semibold">
-            Telefon (Örnek: 535 555 55 55) - İsteğe Bağlı
-          </label>
-          <input
-            type="phone"
-            name="phoneNumber"
-            id="phoneNumber"
-            className="w-full p-3 md:p-4 border rounded focus:outline-none focus:ring focus:border-blue-500"
-            value={newProfile.phoneNumber}
-            onChange={handleChangePhoneNumber}
-            placeholder="555 555 55 55 - İsteğe Bağlı"
-            maxLength={14} // Maksimum uzunluk 14 karakter olmalı (+90 ile birlikte)
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="birthDate" className="block font-semibold">
-            Doğum Günü (Örnek: 02.06.2004)
-          </label>
-          <input
-            type="date"
-            name="birthDate"
-            id="birthDate"
-            pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}"
-            className="w-full p-3 md:p-4 border rounded focus:outline-none focus:ring focus:border-blue-500"
-            value={newProfile.birthDate}
-            onChange={handleChange}
-            placeholder="02.06.2004"
-            required
-          />
-        </div>
-        <div className="flex items-center mb-4">
-          <input
-            type="checkbox"
-            id="kvkkCheckbox"
-            name="kvkkCheckbox"
-            className="mr-2"
-            checked={newProfile.kvkk}
-            onChange={handleKvkkChange}
-            required
-          />
-          <label htmlFor="kvkkCheckbox" className="font-semibold">
-            KVKK'ya Kabul Ediyorum
-          </label>
-        </div>
-        <div className="flex items-center mb-4">
-          <input
-            type="checkbox"
-            id="postaTalimatiCheckbox"
-            name="postaTalimatiCheckbox"
-            className="mr-2"
-            checked={newProfile.postaIletisim}
-            onChange={handlePostaTalimatiChange}
-            required
-          />
-          <label htmlFor="postaTalimatiCheckbox" className="font-semibold">
-            Posta Talimatı ve Arama Almayı Kabul Ediyorum
-          </label>
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-500"
-        >
-          Kaydet
-        </button>
-      </form>
+      </div>
     </div>
-  </main>
-</div>
-
-
   );
 }
 

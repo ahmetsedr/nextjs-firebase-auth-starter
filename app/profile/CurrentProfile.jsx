@@ -38,7 +38,7 @@ function UserProfile() {
   const { backgroundImage, profileName, phoneNumber, birthDate, profileImage } = profileData;
 
   return (
-    <div className="bg-blue-100">
+    <div>
       <main>
         <div className="bg-blue-600 h-64 relative flex items-center justify-center">
           <img
@@ -56,40 +56,72 @@ function UserProfile() {
         </div>
 
         <div className="pt-3 container mx-auto text-center mt-6">
-          <h3 className="mt-11 text-2xl font-semibold">{profileName}</h3>
+          <h3 className="mt-11 text-2xl font-semibold text-white">{profileName}</h3>
           <p className="text-gray-500">{auth.currentUser ? auth.currentUser.email : ''}</p>
         </div>
 
         <div className="container mx-auto mt-6 px-4 sm:px-6 lg:px-8">
-  <div className="bg-white rounded-lg shadow-md p-4">
-    <h2 className="text-xl font-semibold">Profil Bilgileri</h2>
-    <div className="bg-blue-200 rounded-md p-4 mt-4">
-      <i className="fa fa-pen fa-xs text-gray-600"></i>
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <tbody>
-            <tr>
-              <td className="font-semibold">İsim</td>
-              <td>:</td>
-              <td>{profileName}</td>
-            </tr>
-            <tr>
-              <td className="font-semibold">Email</td>
-              <td>:</td>
-              <td>{auth.currentUser ? auth.currentUser.email : ''}</td>
-            </tr>
-            <tr>
-              <td className="font-semibold">Telefon Numarası</td>
-              <td>:</td>
-              <td>{phoneNumber}</td>
-            </tr>
-            <tr>
-              <td className="font-semibold">Doğum Tarihi</td>
-              <td>:</td>
-              <td>{birthDate}</td>
-            </tr>
-          </tbody>
-        </table>
+  <div className="backdrop-blur-sm rounded-2xl shadow-xl p-8 mt-4 mb-8">
+    {/* Profile Header */}
+    <div className="flex items-center justify-between mb-6">
+      <h2 className="text-2xl font-bold text-white">Profil Bilgileri</h2> 
+    </div>
+
+    {/* Profile Info Grid */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Info Cards */}
+      <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
+        <div className="flex items-center space-x-3 mb-2">
+          <i className="fas fa-user text-purple-400"></i>
+          <span className="text-gray-400 text-sm">İsim</span>
+        </div>
+        <p className="text-white font-medium pl-8">{profileName}</p>
+      </div>
+
+      <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
+        <div className="flex items-center space-x-3 mb-2">
+          <i className="fas fa-envelope text-blue-400"></i>
+          <span className="text-gray-400 text-sm">Email</span>
+        </div>
+        <p className="text-white font-medium pl-8">
+          {auth.currentUser ? auth.currentUser.email : ''}
+        </p>
+      </div>
+
+      <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
+        <div className="flex items-center space-x-3 mb-2">
+          <i className="fas fa-phone text-green-400"></i>
+          <span className="text-gray-400 text-sm">Telefon Numarası</span>
+        </div>
+        <p className="text-white font-medium pl-8">{phoneNumber || 'Belirtilmedi'}</p>
+      </div>
+
+      <div className="bg-white/10 rounded-xl p-4 backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
+        <div className="flex items-center space-x-3 mb-2">
+          <i className="fas fa-calendar text-pink-400"></i>
+          <span className="text-gray-400 text-sm">Doğum Tarihi</span>
+        </div>
+        <p className="text-white font-medium pl-8">{birthDate || 'Belirtilmedi'}</p>
+      </div>
+    </div>
+
+    {/* Additional Info Section */}
+    <div className="mt-6 bg-white/5 rounded-xl p-4">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-white/90">Hesap Durumu</h3>
+        <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">
+          Aktif
+        </span>
+      </div>
+      <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="text-gray-400">Son Giriş</div>
+        <div className="text-white">
+          {auth.currentUser?.metadata.lastSignInTime || 'Bilgi yok'}
+        </div>
+        <div className="text-gray-400">Hesap Oluşturma</div>
+        <div className="text-white">
+          {auth.currentUser?.metadata.creationTime || 'Bilgi yok'}
+        </div>
       </div>
     </div>
   </div>
